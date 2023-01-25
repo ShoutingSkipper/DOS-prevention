@@ -1,0 +1,40 @@
+import socket
+import os
+import time
+from _thread import *
+ServerSideSocket = socket.socket()
+host = socket.gethostbyname(socket.gethostname())
+port = 5005
+ThreadCount = 0
+try:
+
+        ServerSideSocket.bind((host, port))
+except socket.error as e:
+    print(str(e))
+
+
+print('Socket is listening..')
+ServerSideSocket.listen(5)
+
+
+def multi_threaded_client(connection):
+    connection.send(str.encode('Server is working:'))
+    while True:
+        data = connection.recv(2048)
+
+        print("Message: " + str(data))
+        response = "Messsege Sent"
+        if not data:
+            break
+
+    connection.close()
+
+
+while True:    //this is for the prevention 
+    # time.sleep(3)
+    Client, address = ServerSideSocket.accept()
+    print('Connected to: ' + address[0] + ':' + str(address[1]))
+    start_new_thread(multi_threaded_client, (Client,))
+    ThreadCount += 1
+
+ServerSideSocket.close()
