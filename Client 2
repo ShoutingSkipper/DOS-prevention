@@ -1,0 +1,28 @@
+import socket
+
+count = 0
+
+
+def client_program():
+    host = socket.gethostname()  # as both code is running on same pc
+    name= "User2"
+    port = 5005  # port number dedicated for socket
+    client_socket = socket.socket()  # instantiate
+    client_socket.connect((host, port))  # for connecting to server
+    message = input(" -> ")
+
+    while message.lower().strip() != 'end':  # for making a stop loop condition
+        message = "Recieved From Robas: " + message
+        client_socket.send(message.encode())  # send message
+        message = input(" -> ")  # take input
+
+
+
+
+
+
+    client_socket.close()  # close the connection
+
+
+if __name__ == '__main__':
+    client_program()
